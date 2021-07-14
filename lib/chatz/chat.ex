@@ -293,4 +293,100 @@ defmodule Chatz.Chat do
   def change_message(%Message{} = message, attrs \\ %{}) do
     Message.changeset(message, attrs)
   end
+
+  alias Chatz.Chat.Emoji
+
+  @doc """
+  Returns the list of chat_emojis.
+
+  ## Examples
+
+      iex> list_chat_emojis()
+      [%Emoji{}, ...]
+
+  """
+  def list_chat_emojis do
+    Repo.all(Emoji)
+  end
+
+  @doc """
+  Gets a single emoji.
+
+  Raises `Ecto.NoResultsError` if the Emoji does not exist.
+
+  ## Examples
+
+      iex> get_emoji!(123)
+      %Emoji{}
+
+      iex> get_emoji!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_emoji!(id), do: Repo.get!(Emoji, id)
+
+  @doc """
+  Creates a emoji.
+
+  ## Examples
+
+      iex> create_emoji(%{field: value})
+      {:ok, %Emoji{}}
+
+      iex> create_emoji(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_emoji(attrs \\ %{}) do
+    %Emoji{}
+    |> Emoji.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a emoji.
+
+  ## Examples
+
+      iex> update_emoji(emoji, %{field: new_value})
+      {:ok, %Emoji{}}
+
+      iex> update_emoji(emoji, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_emoji(%Emoji{} = emoji, attrs) do
+    emoji
+    |> Emoji.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a emoji.
+
+  ## Examples
+
+      iex> delete_emoji(emoji)
+      {:ok, %Emoji{}}
+
+      iex> delete_emoji(emoji)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_emoji(%Emoji{} = emoji) do
+    Repo.delete(emoji)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking emoji changes.
+
+  ## Examples
+
+      iex> change_emoji(emoji)
+      %Ecto.Changeset{data: %Emoji{}}
+
+  """
+  def change_emoji(%Emoji{} = emoji, attrs \\ %{}) do
+    Emoji.changeset(emoji, attrs)
+  end
 end

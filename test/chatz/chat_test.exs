@@ -179,4 +179,65 @@ defmodule Chatz.ChatTest do
       assert %Ecto.Changeset{} = Chat.change_message(message)
     end
   end
+
+  describe "chat_emojis" do
+    alias Chatz.Chat.Emoji
+
+    @valid_attrs %{key: "some key", unicode: "some unicode"}
+    @update_attrs %{key: "some updated key", unicode: "some updated unicode"}
+    @invalid_attrs %{key: nil, unicode: nil}
+
+    def emoji_fixture(attrs \\ %{}) do
+      {:ok, emoji} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Chat.create_emoji()
+
+      emoji
+    end
+
+    test "list_chat_emojis/0 returns all chat_emojis" do
+      emoji = emoji_fixture()
+      assert Chat.list_chat_emojis() == [emoji]
+    end
+
+    test "get_emoji!/1 returns the emoji with given id" do
+      emoji = emoji_fixture()
+      assert Chat.get_emoji!(emoji.id) == emoji
+    end
+
+    test "create_emoji/1 with valid data creates a emoji" do
+      assert {:ok, %Emoji{} = emoji} = Chat.create_emoji(@valid_attrs)
+      assert emoji.key == "some key"
+      assert emoji.unicode == "some unicode"
+    end
+
+    test "create_emoji/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Chat.create_emoji(@invalid_attrs)
+    end
+
+    test "update_emoji/2 with valid data updates the emoji" do
+      emoji = emoji_fixture()
+      assert {:ok, %Emoji{} = emoji} = Chat.update_emoji(emoji, @update_attrs)
+      assert emoji.key == "some updated key"
+      assert emoji.unicode == "some updated unicode"
+    end
+
+    test "update_emoji/2 with invalid data returns error changeset" do
+      emoji = emoji_fixture()
+      assert {:error, %Ecto.Changeset{}} = Chat.update_emoji(emoji, @invalid_attrs)
+      assert emoji == Chat.get_emoji!(emoji.id)
+    end
+
+    test "delete_emoji/1 deletes the emoji" do
+      emoji = emoji_fixture()
+      assert {:ok, %Emoji{}} = Chat.delete_emoji(emoji)
+      assert_raise Ecto.NoResultsError, fn -> Chat.get_emoji!(emoji.id) end
+    end
+
+    test "change_emoji/1 returns a emoji changeset" do
+      emoji = emoji_fixture()
+      assert %Ecto.Changeset{} = Chat.change_emoji(emoji)
+    end
+  end
 end
