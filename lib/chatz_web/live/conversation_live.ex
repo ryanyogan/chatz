@@ -3,6 +3,7 @@ defmodule ChatzWeb.ConversationLive do
   use ChatzWeb, :live_view
 
   alias Chatz.{Auth, Chat, Repo}
+  alias ChatzWeb.ConversationView
 
   @impl true
   def mount(_params, _session, socket) do
@@ -11,29 +12,7 @@ defmodule ChatzWeb.ConversationLive do
 
   @impl true
   def render(assigns) do
-    ~L"""
-    <div>
-      <b>User name:</b> <%= @user.nickname %>
-    </div>
-    <div>
-      <b>Conversation title:</b><%= @conversation.title %>
-    </div>
-    <div>
-      <%= f = form_for :message, "#", [phx_submit: "send_message"] %>
-        <%= label f, :content %>
-        <%= text_input f, :content %>
-        <%= submit "Send" %>
-      </form>
-    </div>
-    <div>
-      <b>Messages:</b>
-      <%= for message <- @messages do %>
-        <div>
-          <b><%= message.user.nickname %></b>: <%= message.content %>
-        </div>
-      <% end %>
-    </div>
-    """
+    ConversationView.render("show.html", assigns)
   end
 
   @impl true
