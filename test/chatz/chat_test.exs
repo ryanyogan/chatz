@@ -240,4 +240,61 @@ defmodule Chatz.ChatTest do
       assert %Ecto.Changeset{} = Chat.change_emoji(emoji)
     end
   end
+
+  describe "chat_message_reactions" do
+    alias Chatz.Chat.MessageReaction
+
+    @valid_attrs %{}
+    @update_attrs %{}
+    @invalid_attrs %{}
+
+    def message_reaction_fixture(attrs \\ %{}) do
+      {:ok, message_reaction} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Chat.create_message_reaction()
+
+      message_reaction
+    end
+
+    test "list_chat_message_reactions/0 returns all chat_message_reactions" do
+      message_reaction = message_reaction_fixture()
+      assert Chat.list_chat_message_reactions() == [message_reaction]
+    end
+
+    test "get_message_reaction!/1 returns the message_reaction with given id" do
+      message_reaction = message_reaction_fixture()
+      assert Chat.get_message_reaction!(message_reaction.id) == message_reaction
+    end
+
+    test "create_message_reaction/1 with valid data creates a message_reaction" do
+      assert {:ok, %MessageReaction{} = message_reaction} = Chat.create_message_reaction(@valid_attrs)
+    end
+
+    test "create_message_reaction/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Chat.create_message_reaction(@invalid_attrs)
+    end
+
+    test "update_message_reaction/2 with valid data updates the message_reaction" do
+      message_reaction = message_reaction_fixture()
+      assert {:ok, %MessageReaction{} = message_reaction} = Chat.update_message_reaction(message_reaction, @update_attrs)
+    end
+
+    test "update_message_reaction/2 with invalid data returns error changeset" do
+      message_reaction = message_reaction_fixture()
+      assert {:error, %Ecto.Changeset{}} = Chat.update_message_reaction(message_reaction, @invalid_attrs)
+      assert message_reaction == Chat.get_message_reaction!(message_reaction.id)
+    end
+
+    test "delete_message_reaction/1 deletes the message_reaction" do
+      message_reaction = message_reaction_fixture()
+      assert {:ok, %MessageReaction{}} = Chat.delete_message_reaction(message_reaction)
+      assert_raise Ecto.NoResultsError, fn -> Chat.get_message_reaction!(message_reaction.id) end
+    end
+
+    test "change_message_reaction/1 returns a message_reaction changeset" do
+      message_reaction = message_reaction_fixture()
+      assert %Ecto.Changeset{} = Chat.change_message_reaction(message_reaction)
+    end
+  end
 end

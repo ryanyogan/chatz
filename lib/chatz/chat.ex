@@ -389,4 +389,100 @@ defmodule Chatz.Chat do
   def change_emoji(%Emoji{} = emoji, attrs \\ %{}) do
     Emoji.changeset(emoji, attrs)
   end
+
+  alias Chatz.Chat.MessageReaction
+
+  @doc """
+  Returns the list of chat_message_reactions.
+
+  ## Examples
+
+      iex> list_chat_message_reactions()
+      [%MessageReaction{}, ...]
+
+  """
+  def list_chat_message_reactions do
+    Repo.all(MessageReaction)
+  end
+
+  @doc """
+  Gets a single message_reaction.
+
+  Raises `Ecto.NoResultsError` if the Message reaction does not exist.
+
+  ## Examples
+
+      iex> get_message_reaction!(123)
+      %MessageReaction{}
+
+      iex> get_message_reaction!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_message_reaction!(id), do: Repo.get!(MessageReaction, id)
+
+  @doc """
+  Creates a message_reaction.
+
+  ## Examples
+
+      iex> create_message_reaction(%{field: value})
+      {:ok, %MessageReaction{}}
+
+      iex> create_message_reaction(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_message_reaction(attrs \\ %{}) do
+    %MessageReaction{}
+    |> MessageReaction.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a message_reaction.
+
+  ## Examples
+
+      iex> update_message_reaction(message_reaction, %{field: new_value})
+      {:ok, %MessageReaction{}}
+
+      iex> update_message_reaction(message_reaction, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_message_reaction(%MessageReaction{} = message_reaction, attrs) do
+    message_reaction
+    |> MessageReaction.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a message_reaction.
+
+  ## Examples
+
+      iex> delete_message_reaction(message_reaction)
+      {:ok, %MessageReaction{}}
+
+      iex> delete_message_reaction(message_reaction)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_message_reaction(%MessageReaction{} = message_reaction) do
+    Repo.delete(message_reaction)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking message_reaction changes.
+
+  ## Examples
+
+      iex> change_message_reaction(message_reaction)
+      %Ecto.Changeset{data: %MessageReaction{}}
+
+  """
+  def change_message_reaction(%MessageReaction{} = message_reaction, attrs \\ %{}) do
+    MessageReaction.changeset(message_reaction, attrs)
+  end
 end
