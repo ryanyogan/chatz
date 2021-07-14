@@ -3,9 +3,14 @@ defmodule Chatz.Auth.User do
   use Pow.Ecto.Schema
   import Ecto.Changeset
 
+  alias Chatz.Chat.ConversationMember
+
   schema "auth_users" do
     field :nickname, :string
     pow_user_fields()
+
+    has_many :conversation_members, ConversationMember
+    has_many :conversations, through: [:conversation_members, :conversation]
 
     timestamps()
   end
