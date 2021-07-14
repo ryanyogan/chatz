@@ -485,4 +485,100 @@ defmodule Chatz.Chat do
   def change_message_reaction(%MessageReaction{} = message_reaction, attrs \\ %{}) do
     MessageReaction.changeset(message_reaction, attrs)
   end
+
+  alias Chatz.Chat.SeenMessage
+
+  @doc """
+  Returns the list of chat_seen_messages.
+
+  ## Examples
+
+      iex> list_chat_seen_messages()
+      [%SeenMessage{}, ...]
+
+  """
+  def list_chat_seen_messages do
+    Repo.all(SeenMessage)
+  end
+
+  @doc """
+  Gets a single seen_message.
+
+  Raises `Ecto.NoResultsError` if the Seen message does not exist.
+
+  ## Examples
+
+      iex> get_seen_message!(123)
+      %SeenMessage{}
+
+      iex> get_seen_message!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_seen_message!(id), do: Repo.get!(SeenMessage, id)
+
+  @doc """
+  Creates a seen_message.
+
+  ## Examples
+
+      iex> create_seen_message(%{field: value})
+      {:ok, %SeenMessage{}}
+
+      iex> create_seen_message(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_seen_message(attrs \\ %{}) do
+    %SeenMessage{}
+    |> SeenMessage.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a seen_message.
+
+  ## Examples
+
+      iex> update_seen_message(seen_message, %{field: new_value})
+      {:ok, %SeenMessage{}}
+
+      iex> update_seen_message(seen_message, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_seen_message(%SeenMessage{} = seen_message, attrs) do
+    seen_message
+    |> SeenMessage.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a seen_message.
+
+  ## Examples
+
+      iex> delete_seen_message(seen_message)
+      {:ok, %SeenMessage{}}
+
+      iex> delete_seen_message(seen_message)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_seen_message(%SeenMessage{} = seen_message) do
+    Repo.delete(seen_message)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking seen_message changes.
+
+  ## Examples
+
+      iex> change_seen_message(seen_message)
+      %Ecto.Changeset{data: %SeenMessage{}}
+
+  """
+  def change_seen_message(%SeenMessage{} = seen_message, attrs \\ %{}) do
+    SeenMessage.changeset(seen_message, attrs)
+  end
 end

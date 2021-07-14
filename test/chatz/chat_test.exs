@@ -297,4 +297,61 @@ defmodule Chatz.ChatTest do
       assert %Ecto.Changeset{} = Chat.change_message_reaction(message_reaction)
     end
   end
+
+  describe "chat_seen_messages" do
+    alias Chatz.Chat.SeenMessage
+
+    @valid_attrs %{}
+    @update_attrs %{}
+    @invalid_attrs %{}
+
+    def seen_message_fixture(attrs \\ %{}) do
+      {:ok, seen_message} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Chat.create_seen_message()
+
+      seen_message
+    end
+
+    test "list_chat_seen_messages/0 returns all chat_seen_messages" do
+      seen_message = seen_message_fixture()
+      assert Chat.list_chat_seen_messages() == [seen_message]
+    end
+
+    test "get_seen_message!/1 returns the seen_message with given id" do
+      seen_message = seen_message_fixture()
+      assert Chat.get_seen_message!(seen_message.id) == seen_message
+    end
+
+    test "create_seen_message/1 with valid data creates a seen_message" do
+      assert {:ok, %SeenMessage{} = seen_message} = Chat.create_seen_message(@valid_attrs)
+    end
+
+    test "create_seen_message/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Chat.create_seen_message(@invalid_attrs)
+    end
+
+    test "update_seen_message/2 with valid data updates the seen_message" do
+      seen_message = seen_message_fixture()
+      assert {:ok, %SeenMessage{} = seen_message} = Chat.update_seen_message(seen_message, @update_attrs)
+    end
+
+    test "update_seen_message/2 with invalid data returns error changeset" do
+      seen_message = seen_message_fixture()
+      assert {:error, %Ecto.Changeset{}} = Chat.update_seen_message(seen_message, @invalid_attrs)
+      assert seen_message == Chat.get_seen_message!(seen_message.id)
+    end
+
+    test "delete_seen_message/1 deletes the seen_message" do
+      seen_message = seen_message_fixture()
+      assert {:ok, %SeenMessage{}} = Chat.delete_seen_message(seen_message)
+      assert_raise Ecto.NoResultsError, fn -> Chat.get_seen_message!(seen_message.id) end
+    end
+
+    test "change_seen_message/1 returns a seen_message changeset" do
+      seen_message = seen_message_fixture()
+      assert %Ecto.Changeset{} = Chat.change_seen_message(seen_message)
+    end
+  end
 end
